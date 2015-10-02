@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+      #floating-panel {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 25%;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        z-index: 5;
+      }
+    </style>
+	<script>
+	
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1507029596281677',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+ 
+
+</script>
+	<script src="js/jquery.js"></script>
+  </head>
+
+  <body>
+    <div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
+    <div id="map"></div>
+    
+    <script>
+var locs,haba;
+  var points = [];
+var map, heatmap;
+	$.ajax({
+		type:'POST',
+		dataType:'JSON',
+		url:'gcccs.org/beeHALA2016/getHeatPoints.php',
+		data:{},
+		success:function(data){
+		locs=data;
+		var pts=[];
+		haba= data.length-1;
+		
+		
+			
+		
+			}
+			});
+
+
+
+    </script>
+     
+    <script>
+    
+  
+  function initMap() {
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: {lat: parseFloat(localStorage.getItem('LAT')), lng: parseFloat(localStorage.getItem('LONG'))},
+    mapTypeId: google.maps.MapTypeId.SATELLITE
+  });
+
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints(),
+    map: map
+  });
+}
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+  
+}
+
+function changeGradient() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  heatmap.set('radius', heatmap.get('radius') ? null : 20);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
+function getPoints() {
+return [
+new google.maps.LatLng(14.8512000,120.2625340), //barretto
+	new google.maps.LatLng(14.8260940,120.2833670), //sm olongapo
+	new google.maps.LatLng(14.8215340,120.2808020), //sta. rita
+	new google.maps.LatLng(14.8743930,120.2945360), //gordon height
+	new google.maps.LatLng(14.8488950,120.2815590), //mabayuan
+	new google.maps.LatLng(14.8425080,120.2851640), //west bajac bajac
+	new google.maps.LatLng(14.8376330,120.2873270), //east bajac bajac
+	new google.maps.LatLng(14.8562430,120.3118380), //old cabalan
+	new google.maps.LatLng(14.8485240,120.3291370), //new cabalan
+	new google.maps.LatLng(14.8360460,120.2836800), //gordon college
+	new google.maps.LatLng(14.8345040,120.2729060), //kalaklan
+	new google.maps.LatLng(14.8275840,120.2869660), //pagasa
+	new google.maps.LatLng(14.8392640,120.2842170), //victory liner
+	new google.maps.LatLng(14.8399110,120.2881520), //Elicano St, Olongapo, Zambales, Philippines
+	new google.maps.LatLng(14.8255520,120.2799610), //ayala	
+	new google.maps.LatLng(14.8380100,120.2855510), //st.jo
+	new google.maps.LatLng(14.8318850,120.2797560), //west tapinac
+	new google.maps.LatLng(14.8328370,120.2844430), //east tapinac
+	new google.maps.LatLng(14.8314560,120.2894890), //kalalake
+	new google.maps.LatLng(14.8318190,120.2779540), //kababae
+	new google.maps.LatLng(14.8265200,120.2817410), //columban
+	new google.maps.LatLng(14.8466820,120.3625320), //roosevelt
+	new google.maps.LatLng(14.8466820,120.3625320), //balic balic
+	new google.maps.LatLng(14.8386300,120.2842020), //kale beach
+	new google.maps.LatLng(14.8281170,120.2765110), //banicain
+	new google.maps.LatLng(14.8302650,120.2762560), //foster
+	new google.maps.LatLng(14.8562830,120.2563850), //sto.tomas
+	new google.maps.LatLng(14.8655830,120.2382910), //calapacuan
+	new google.maps.LatLng(14.8708000,120.2382910), //kalapandayan
+	new google.maps.LatLng(14.8565070,120.2469460), //matain
+	new google.maps.LatLng(14.9095610,120.2280130), //subic hills
+	new google.maps.LatLng(14.8424710,120.2876620), //cityhall
+	new google.maps.LatLng(14.8780630,120.4545800), //dinalupihan
+	new google.maps.LatLng(14.8265110,120.2804300) //hospital
+]
+
+}
+	
+
+
+
+
+</script>
+ <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA75LfeN1YnIb9uCuiwAV7uUZXB9rqY-Xk&signed_in=true&libraries=visualization&callback=initMap">
+    </script>
+  </body>
+</html>
